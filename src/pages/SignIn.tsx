@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -75,11 +88,27 @@ const useStyles = makeStyles((theme) => ({
     loginSideButtonRegister: {
         marginBottom: 15,
     },  
+    loginSideField: {
+        marginBottom: 15,
+    },
+    loginSideButton: {
+        marginTop: 10,
+        marginBottom: 20,
+    },
 }));
 
 function SignIn() {
 
+    const [open, setOpen] = useState(false);
     const classes = useStyles();
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div className={classes.wrapper}>
@@ -112,7 +141,31 @@ function SignIn() {
                     <Typography variant="h4" gutterBottom className={classes.loginSideTitle}>Узнайте, что происходит в мире прямо сейчас</Typography>
                     <Typography className={classes.loginSideP}><b>Присоединяйтесь к Твиттеру прямо сейчас!</b></Typography>
                     <Button className={classes.loginSideButtonRegister} variant="contained" color="primary" fullWidth>Зарегистрироваться</Button>
-                    <Button variant="outlined" color="primary" fullWidth>Войти</Button>
+                    <Button onClick={handleClickOpen} variant="outlined" color="primary" fullWidth>Войти</Button>
+
+                    <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>
+                            <IconButton onClick={handleClose}>
+                                <CloseIcon style={{fontSize: 26}}/>
+                            </IconButton>
+                            Войти в Твиттер
+                        </DialogTitle>
+                        <DialogContent>
+                            <FormControl component="fieldset" fullWidth>
+                                <FormGroup aria-label="position" row>
+                                    <TextField className={classes.loginSideField} autoFocus InputLabelProps={{
+                                        shrink: true,
+                                    }} variant="filled" id="email" label="E-mail" type="email" fullWidth />
+                                    <TextField className={classes.loginSideField} InputLabelProps={{
+                                        shrink: true,
+                                    }} variant="filled" id="password" label="Пароль" type="password" fullWidth />
+                                    <Button className={classes.loginSideButton} onClick={handleClose} color="primary" variant="contained" fullWidth >
+                                        Войти
+                                    </Button>
+                                </FormGroup>
+                            </FormControl>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </section>
         </div>
